@@ -186,7 +186,7 @@ class PaymentsController extends Controller
         $payment_id = $request->get('payment_id');
         $response = Http::get('https://api.mercadopago.com/v1/payments/' . $payment_id . '?access_token=' . config('mercadopago.access_token'));
         $response = json_decode($response);
-        if ($response->error) {
+        if (!empty($response->error)) {
             return redirect()->route('payments.index')->with('danger', 'El pago a través de MercadoPago no se pudo realizar.');
         } else {
             if ($response->status == 'approved') {
