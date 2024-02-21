@@ -12,7 +12,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('fk_product')->unsigned();
             $table->bigInteger('fk_user')->unsigned();
-            $table->string('invoice', 50)->unique();
+            $table->string('invoice', 50);
             $table->bigInteger('amount')->unsigned();
             $table->foreign('fk_product')->references('id')->on('products');
             $table->foreign('fk_user')->references('id')->on('users');

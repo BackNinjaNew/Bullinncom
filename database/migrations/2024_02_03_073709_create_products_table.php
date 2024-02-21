@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('stock')->unsigned();
             $table->double('price', 20, 2);
             $table->string('image', 50);
+            $table->string('state', 20);
             $table->foreign('fk_category')->references('id')->on('categories');
             $table->timestamps();
         });

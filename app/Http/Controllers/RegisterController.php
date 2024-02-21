@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateRequest;
-use Illuminate\Http\Request;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -17,7 +15,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store(UserCreateRequest $request) {
+    public function store() {
         $user = User::create(request(['fk_type_user', 'document', 'firstname', 'lastname', 'email', 'phone', 'address', 'password']));
         auth()->login($user);
         return redirect()->route('catalog.index');

@@ -1,12 +1,14 @@
-@extends('layouts.app_catalog')
+@extends('layouts.app_products')
 
-@section('title', 'Shopping Cart')
+@section('title', 'Detail Sell')
 
 @section('content')
 <div class="row px-16">
-    <h1 class="text-5xl font-bold text-center pt-10 pb-10">Carrito de Compras</h1>
-    @if (count($products) > 0)
-    <div class="bg-gray-100 relative overflow-x-auto sm:rounded-lg pt-5 pb-10">
+    <h1 class="text-5xl font-bold text-center pt-10 pb-10">Detalle de la Venta</h1>
+    @if (count($sales) > 0)
+    <div class="bg-gray-100 relative overflow-x-auto sm:rounded-lg">
+        <h1 class="text-2xl font-bold text-center">Número de Factura</h1>
+        <h1 class="text-2xl font-bold text-center pb-5">{{ $invoice }}</h1>
         <table class="w-full text-md text-left rtl:text-right text-gray-600">
             <thead class="text-lg text-white uppercase bg-blue-500">
                 <tr class="text-center">
@@ -18,11 +20,10 @@
                     <th scope="col" class="px-6 py-3"><span>Cantidad</span></th>
                     <th scope="col" class="px-6 py-3"><span>Precio</span></th>
                     <th scope="col" class="px-6 py-3"><span>Subtotal</span></th>
-                    <th scope="col" class="px-6 py-3"><span>Eliminar</span></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $item)
+                @foreach ($sales as $item)
                 <tr class="text-center bg-blue-300 border-2 hover:bg-blue-400">
                     <td>
                         <div class="flex justify-center items-center">
@@ -35,33 +36,9 @@
                     <td class="px-6 py-4 font-bold text-gray-900">{{ $item->category }}</td>
                     <td class="px-6 py-4 font-bold text-gray-900">{{ $item->name }}</td>
                     <td class="px-6 py-4 font-bold text-gray-900">{{ $item->brand }}</td>
-                    <td class="px-6 py-4 font-bold text-gray-900">
-                        <form method="POST" action="{{ route('catalog.amount') }}">
-                            @csrf
-                            <input type="hidden" value="{{ $item->id }}" id="id_product" name="id_product">
-                            <input type="hidden" value="{{ $item->amount }}" id="amount" name="amount">
-                            @if ($item->amount <= 1)
-                            <button type="submit" name="minus" class="rounded-md bg-gray-400 w-9 text-lg text-white text-center font-bold p-2 my-3" disabled><i class="fa fa-minus"></i></button>
-                            @else
-                            <button type="submit" name="minus" class="rounded-md bg-gray-600 w-9 text-lg text-white text-center font-bold p-2 my-3 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300"><i class="fa fa-minus"></i></button>
-                            @endif
-                            &nbsp;&nbsp;&nbsp;{{ $item->amount }}&nbsp;&nbsp;&nbsp;
-                            @if ($item->amount >= $item->stock)
-                            <button type="submit" name="plus" class="rounded-md bg-gray-400 w-9 text-lg text-white text-center font-bold p-2 my-3" disabled><i class="fa fa-plus"></i></button>
-                            @else
-                            <button type="submit" name="plus" class="rounded-md bg-gray-600 w-9 text-lg text-white text-center font-bold p-2 my-3 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300"><i class="fa fa-plus"></i></button>
-                            @endif
-                        </form>
-                    </td>
+                    <td class="px-6 py-4 font-bold text-gray-900">{{ $item->amount }}</td>
                     <td class="px-6 py-4 font-bold text-gray-900">${{ $item->price }}</td>
                     <td class="px-6 py-4 font-bold text-gray-900">${{ $item->amount * $item->price }}</td>
-                    <td class="px-6 py-4">
-                        <form method="POST" action="{{ route('catalog.destroy', $item->id) }}">
-                            @csrf
-                            @method("DELETE")
-                            <button type="submit" class="rounded-md bg-red-600 w-9 text-lg text-white text-center font-bold p-2 my-3 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300"><i class="fa fa-trash-alt"></i></button>
-                        </form>
-                    </td>
                 </tr>
                 <div id="imgModal-{{ $item->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -86,18 +63,17 @@
                     <td></td><td></td><td></td><td></td><td></td><td></td>
                     <td class="px-6 py-3 font-bold"><span>Total<span></td>
                     <td class="px-6 py-3 font-bold"><span>${{ $total }}<span></td>
-                    <td></td>
                 </tr>
             </tfooter>
         </table>
         <div class="text-center pt-5 pb-5">
-            <a href="{{ route('payments.index') }}" type="button" class="rounded-md bg-blue-600 w-60 text-lg text-white font-bold p-2 my-3 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300"><i class="fa fa-dollar-sign"> Realizar Pago</i></a>
+            <a href="{{ route('products.sales') }}" type="button" class="rounded-md bg-blue-600 w-auto text-lg text-white font-bold py-2 px-4 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300"><i class="fa fa-undo-alt"></i> Regresar</a>
         </div>
     </div>
     @else
     <div class="text-center">
-        <h1 class="text-xl font-bold text-center pt-5 pb-5">¡Empieza un carrito de compras!</h1>
-        <a href="{{ route('catalog.index') }}" type="button" class="rounded-md bg-blue-600 w-auto text-lg text-white text-center font-bold p-2 my-3 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300"><i class="fa fa-store"> Descubrir Productos</i></a>
+        <h1 class="text-xl font-bold text-center pt-5 pb-10">No se encontraron resultados...</h1>
+        <a href="{{ route('products.sales') }}" type="button" class="rounded-md bg-blue-600 w-auto text-lg text-white font-bold py-2 px-4 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300"><i class="fa fa-undo-alt"></i> Regresar</a>
     </div>
     @endif
 </div>

@@ -14,10 +14,10 @@
                     <p class="text-2xl font-bold"><a href='/bullinncom/public/products'>Bullinncom</a></p>
                 </li>
                 <li class="mx-4">
-                    <a href="/bullinncom/public/products" class=" font-semibold py-2 px-4 text-center text-2xl"><i class="fa fa-home"></i></a>
+                    <a href="{{ route('products.index') }}" class="font-semibold py-2 px-4 text-center text-2xl"><i class="fa fa-home"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-black"><i class="fa fa-hand-holding-usd"></i> Ventas</a>
+                    <a href="{{ route('products.sales') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-black"><i class="fa fa-hand-holding-usd"></i> Ventas</a>
                 </li>
             </ul>
             <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">

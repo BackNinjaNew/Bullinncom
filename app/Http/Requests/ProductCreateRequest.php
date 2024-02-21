@@ -29,7 +29,7 @@ class ProductCreateRequest extends FormRequest
             'brand' => 'required|min:3|max:50',
             'stock' => 'required|numeric|digits_between:1,20',
             'price' => 'required|numeric|digits_between:1,10',
-            'image' => 'required|image|mimes:bmp,gif,jpg,jpeg,png,svg',
+            'image' => 'required|image|mimes:bmp,gif,jpg,jpeg,png,webp',
         ];
     }
 
@@ -55,7 +55,7 @@ class ProductCreateRequest extends FormRequest
             'price.digits_between' => 'El campo precio debe tener entre 3 y 10 dígitos.',
             'image.required' => 'El campo imagen es obligatorio.',
             'image.image' => 'El campo imagen debe ser una imagen.',
-            'image.mimes' => 'El campo imagen debe ser un archivo de tipo: bmp, gif, jpg, jpeg, png, svg.',
+            'image.mimes' => 'El campo imagen debe ser un archivo de tipo: bmp, gif, jpg, jpeg, png, webp.',
         ];
     }
 }
